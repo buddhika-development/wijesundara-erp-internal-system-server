@@ -1,7 +1,14 @@
 const express = require('express')
-const app = express()
-const PORT = 8080;
+const dotenv = require('dotenv')
 
+// configure basic app
+const app = express()
+dotenv.config()
+
+// access port values
+const PORT = process.env.PORT || 8080
+
+// setup api routers
 const stock_router = require('./routes/stock')
 
 app.use('/api/stock', stock_router)
