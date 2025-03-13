@@ -91,4 +91,6 @@ const Employee = mongoose.model('Employee', EmployeeSchema);
 const JobRole = mongoose.model('JobRole', JobRoleSchema);
 const EmployeeDepartment = mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema);
 
-module.exports = { Department, Employee, JobRole, EmployeeDepartment };
+
+module.exports = { Department, Employee, JobRole,  EmployeeDepartment };
+

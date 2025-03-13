@@ -4,6 +4,7 @@ const db_connection = require('./utils/db');
 const employeeRoutes = require('./routes/employeeRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const jobroleRoutes = require('./routes/jobroleRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
 const employeeDepartmentRoutes = require('./routes/employeeDepartmentRoutes');
 
 dotenv.config();
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/employee', employeeRoutes);
 app.use('/api/department', departmentRoutes);
 app.use('/api/jobrole', jobroleRoutes);
+app.use('/api/attendance', attendanceRoutes);
 app.use('/api/relation', employeeDepartmentRoutes);
 
 // Database connection
