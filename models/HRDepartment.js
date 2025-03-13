@@ -85,12 +85,30 @@ const EmployeeDepartmentSchema = new mongoose.Schema({
     }
 });
 
+// Attendance Schema
+const AttendanceSchema = new mongoose.Schema({
+    employee_id: {
+        type: mongoose.Schema.Types.ObjectId,  // Reference to Employee collection
+        ref: 'Employee',
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    attended: {
+        type: Boolean,
+        required: true
+    }
+});
+
 // Models 
 const Department = mongoose.model('Department', DepartmentSchema);
 const Employee = mongoose.model('Employee', EmployeeSchema);
 const JobRole = mongoose.model('JobRole', JobRoleSchema);
+const Attendance = mongoose.model('Attendance', AttendanceSchema);
 const EmployeeDepartment = mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema);
 
 
-module.exports = { Department, Employee, JobRole,  EmployeeDepartment };
+module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment };
 
