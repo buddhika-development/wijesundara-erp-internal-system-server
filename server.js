@@ -7,13 +7,15 @@ const jobroleRoutes = require('./routes/jobroleRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const employeeDepartmentRoutes = require('./routes/employeeDepartmentRoutes');
 
+const cors = require('cors');
+
 dotenv.config();
 
 // configure basic app
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cors());
 // access port values
 const PORT = process.env.PORT || 5000;
 
