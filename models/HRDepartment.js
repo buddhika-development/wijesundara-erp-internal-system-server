@@ -1,83 +1,114 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
+// Department Schema
 const DepartmentSchema = new mongoose.Schema({
-    department_id : {
-        type : Number,
-        required : true
-    },
-    department_name : {
-        type : String,
-        required : true
-    }
-})
-
-const EmployeeSchema = new mongoose.Schema({
-    employee_id : {
-        type : Number,
-        required : true
-    },
-    employee_name : {
-        type : String,
-        require : true
-    },
-    employee_dob : {
-        type : Date,
-        required : true
-    },
-    employee_address_address_line_one : {
-        type : String,
-        required : true
-    },
-    employee_address_address_line_tw0 : {
-        type : String
-    },
-    employee_address_address_city : {
-        type : String,
-        required : true
-    },
-    employee_bank_account_number : {
-        type : Number,
-        required : true
-    },
-    employee_status : {
-        type : String,
-        required : true
-    }
-})
-
-const EmployeeDepartmentSchema = new mongoose.Schema({
-    employee_id : {
-        type : Number,
-        author : ref(Employee)
-    },
-    department_id : {
+    department_id: {
         type: Number,
-        author : ref(Department)
+        required: true,
+        unique: true
     },
-    jobrole_id : {
-        type : Number,
-        author : ref(JobRole)
+    department_name: {
+        type: String,
+        required: true
     }
-})
+});
 
+// Employee Schema
+const EmployeeSchema = new mongoose.Schema({
+    employee_id: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    employee_name: {
+        type: String,
+        required: true
+    },
+    employee_dob: {
+        type: Date,
+        required: true
+    },
+    employee_address_address_line_one: {
+        type: String,
+        required: true
+    },
+    employee_address_address_line_two: {
+        type: String
+    },
+    employee_address_address_city: {
+        type: String,
+        required: true
+    },
+    employee_bank_account_number: {
+        type: Number,
+        required: true
+    },
+    employee_status: {
+        type: String,
+        required: true
+    }
+});
+
+// Job Role Schema
 const JobRoleSchema = new mongoose.Schema({
-    job_role_id : {
-        type : Number,
-        require : true
+    job_role_id: {
+        type: Number,
+        required: true,
+        unique: true
     },
-    job_role_name : {
-        type : String,
-        require : true
+    job_role_name: {
+        type: String,
+        required: true
     },
-    job_role_sallery : {
-        type : Number,
-        require : true
+    job_role_sallery: {
+        type: Number,
+        required: true
     }
-})
+});
 
-const JobRole = mongoose.models.JobRole || mongoose.model('JobRole', JobRoleSchema)
-const EmployeeDepartment = mongoose.models.EmployeeDepartment || mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema)
-const Employee = mongoose.models.Employee || mongoose.model('Employee', EmployeeSchema);
-const Department = mongoose.models.Department || mongoose.model('Department', DepartmentSchema)
+// Employee,department,jobrole Relation Schema
+const EmployeeDepartmentSchema = new mongoose.Schema({
+    employee_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee',
+        required: true
+    },
+    department_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Department',
+        required: true
+    },
+    jobrole_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'JobRole',
+        required: true
+    }
+});
 
-module.exports = Department, JobRole, EmployeeDepartment, Employee
+// Attendance Schema
+const AttendanceSchema = new mongoose.Schema({
+    employee_id: {
+        type: mongoose.Schema.Types.ObjectId,  // Reference to Employee collection
+        ref: 'Employee',
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    attended: {
+        type: Boolean,
+        required: true
+    }
+});
+
+// Models 
+const Department = mongoose.model('Department', DepartmentSchema);
+const Employee = mongoose.model('Employee', EmployeeSchema);
+const JobRole = mongoose.model('JobRole', JobRoleSchema);
+const Attendance = mongoose.model('Attendance', AttendanceSchema);
+const EmployeeDepartment = mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema);
+
+
+module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment };
+
