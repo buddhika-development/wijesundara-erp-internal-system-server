@@ -3,11 +3,11 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 
-// create datanase connection
+
 const db_connection = async() => {
 
-    // access database connection string
-    const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECITON_STRING
+  
+    const MONGO_CONNECTION_STRING = "mongodb+srv://senevirathnaanuda:finance@cluster0.gzql2.mongodb.net/finance3?retryWrites=true&w=majority&appName=Cluster0"
 
     if(MONGO_CONNECTION_STRING != null) {
 

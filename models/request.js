@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const requests = new mongoose.Schema({
     sec_id: {
-        type: Number,
+        type: String,
         required: true
     },
     amount: {
@@ -12,12 +12,16 @@ const requests = new mongoose.Schema({
     description: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        required: true
     }
 });
 
 const sections = new mongoose.Schema({
     sec_id: {
-        type: Number,
+        type: String,
         ref: "request"
     },
     depname: {

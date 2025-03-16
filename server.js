@@ -1,24 +1,28 @@
-const express = require('express')
-const dotenv = require('dotenv')
-const db_connection = require('./utils/db')
-const stock_router = require('./routes/stock')
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors'); 
+const db_connection = require('./utils/db');
+const finance_router = require('./routes/finance');
 
-dotenv.config()
+dotenv.config();
 
-// configure basic app
-const app = express()
-app.use(express.json())
-app.use(express.urlencoded({extended : false}))
+const app = express();
 
 
-// access port values
-const PORT = process.env.PORT || 8080
+app.use(cors());
 
-// setup api routers
-app.use('/api/stock', stock_router)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-db_connection()
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, ()=> {
-    console.log(`Backend server running in port ${PORT}`)
-})
+db_connection().then(() => {
+    console.log("MongoDB connection established");
+    app.use('/', finance_router);
+
+    app.listen(PORT, () => {
+        console.log(`Backend server running on port ${PORT}`);
+    });
+}).catch(err => {
+    console.error("Failed to start the server due to DB error:", err);
+});
