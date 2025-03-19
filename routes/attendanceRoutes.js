@@ -5,6 +5,15 @@ const mongoose = require('mongoose');
 // Import the Attendance model
 const { Attendance } = require('../models/HRDepartment');
 
+
+
+// TEST-CASE
+// {
+//     "employee_id": "67d13d2e585e7169232d20d3",
+//     "date": "2025-03-15",
+//     "attended": true
+// }
+
 // Create Attendance
 router.post('/add', async (req, res) => {
     const { employee_id, date, attended } = req.body;
@@ -70,6 +79,7 @@ router.get('/date/:date', async (req, res) => {
 // Get attendance by employee_id
 // TEST_case 
 // http://localhost:5000/api/attendance/67d167d8041f87401871c44f wworking +
+
 
 router.get('/:employee_id', async (req, res) => {
     const { employee_id } = req.params;  

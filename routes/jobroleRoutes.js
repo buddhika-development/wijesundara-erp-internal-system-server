@@ -3,7 +3,7 @@ const { JobRole } = require('../models/HRDepartment');
 const router = express.Router();
 
 // Create Job Role
-router.post('/', async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
         const jobRole = new JobRole(req.body);
         await jobRole.save();

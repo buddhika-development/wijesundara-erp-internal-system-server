@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const db_connection = require('./utils/db');
+
+const salaryRoutes = require('./routes/salaryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
 const jobroleRoutes = require('./routes/jobroleRoutes');
@@ -20,6 +22,7 @@ app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 // api routers
+app.use('/api/salary', salaryRoutes);
 app.use('/api/employee', employeeRoutes);
 app.use('/api/department', departmentRoutes);
 app.use('/api/jobrole', jobroleRoutes);

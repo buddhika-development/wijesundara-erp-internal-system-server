@@ -60,10 +60,21 @@ const JobRoleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    job_role_sallery: {
+    job_role_salary: {
         type: Number,
         required: true
+    },
+    monthly_bonus: {  
+        type: Number,
+        required: true,
+        default: 0  
+    },
+    attendance_bonus_per_extra_day: {  
+        type: Number,
+        required: true,
+        default: 500 
     }
+
 });
 
 // Employee,department,jobrole Relation Schema
