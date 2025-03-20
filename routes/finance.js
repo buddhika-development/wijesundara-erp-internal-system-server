@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { request, section,pending ,bank} = require('../models/request');
+const { request, section,pending ,bank,total} = require('../models/request');
 
 
 
@@ -149,7 +149,34 @@ router.post('/pending', async (req, res) => {
     }
 });
 
+router.post('/Bank',async(req,res) =>
+{
+  const {bank_id} = req.body;
 
+  console.log("qq",bank_id)
+  try{
+    console.log("bank ek ahri");
+    const request= await bank.find({bank_id:bank_id})
+    const Bamount = await bank.findOne();
+
+    console.log("qw",Bamount.Bamount);
+
+    const totals =+ Bamount;
+
+     //const updatedRequest4 = await total.findByIdAndUpdate(
+    //    {
+    //      total: totals, 
+       
+    //  },
+    // )
+    console.log(total);
+    console.log(request);
+    res.status(200).json( request );
+  }catch (err) {
+    console.error("Error fetching requests:", err);
+    res.status(500).json({ message: "Internal server error", error: err.message });
+}
+})
 
 router.post('/api/action/:id', async (req, res) => {
     console.log("hi hi");

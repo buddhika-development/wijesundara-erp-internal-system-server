@@ -19,7 +19,7 @@ const requests = new mongoose.Schema({
     },
     bankAccount: {
         type: String,
-        required: true
+        required: true 
     }
 });
 
@@ -45,8 +45,17 @@ const banks = new mongoose.Schema({
     Bamount: {
         type: Number,
         required: true 
+    },
+   
+});
+
+const totals = new mongoose.Schema({
+    total:{
+        type:Number,
+        required: true 
     }
 });
+
 const pendings = new mongoose.Schema({
     sec_id: {
         type: String,
@@ -70,6 +79,8 @@ const bank = mongoose.models.request || mongoose.model('bank', banks, "bank");
 const pending = mongoose.models.request || mongoose.model('pending', pendings, "pending");
 const request = mongoose.models.request || mongoose.model('request', requests, "All");
 const section = mongoose.models.section || mongoose.model('section', sections, "sections");
+const total = mongoose.models.section || mongoose.model('total', totals, "totals");
 
 
-module.exports = { request, section ,pending,bank};
+
+module.exports = { request, section ,pending,bank,total};
