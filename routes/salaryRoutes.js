@@ -13,7 +13,7 @@ const calculateSalary = (basicSalary, extraDays, monthlyBonus, attendanceBonusPe
     const employerEpfRate = 0.12;  
     const employerEtfRate = 0.03; 
 
-    // Ensure all inputs are numbers, default to 0 if invalid
+        //set to 0 if fields are invalid or nan 
     basicSalary = Number(basicSalary) || 0;
     extraDays = Number(extraDays) || 0;
     monthlyBonus = Number(monthlyBonus) || 0;
@@ -30,7 +30,7 @@ const calculateSalary = (basicSalary, extraDays, monthlyBonus, attendanceBonusPe
     return { employeeEpf, employerEpf, employerEtf, attendanceBonus, netSalary, totalEmployerCost };
 };
 
-// Salary Calculation API
+
 router.get("/:employee_id/:year/:month", async (req, res) => {
     const { employee_id, year, month } = req.params;
 

@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-// Import the Attendance model
 const { Attendance } = require('../models/HRDepartment');
-
 
 
 // TEST-CASE
@@ -14,31 +12,28 @@ const { Attendance } = require('../models/HRDepartment');
 //     "attended": true
 // }
 
-// Create Attendance
+//create attendance
 router.post('/add', async (req, res) => {
     const { employee_id, date, attended } = req.body;
 
     try {
-        // Create a new attendance record
         const newAttendance = new Attendance({
             employee_id,
             date,
             attended,
         });
-
-        // Save the attendance record to the database
         await newAttendance.save();
-        res.status(201).json({ message: 'Attendance added successfully', attendance: newAttendance });
+        res.status(201).json({ message: 'Attendance added', attendance: newAttendance });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to add attendance' });
+        res.status(500).json({ error: 'error failed to add attendance' });
     }
 });
 
-// Get all attendance records
+//get all attendance
 router.get('/', async (req, res) => {
     try {
-        const attendances = await Attendance.find(); // Retrieves all attendance records
+        const attendances = await Attendance.find();
         res.status(200).json(attendances);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch attendance records' });
@@ -56,7 +51,6 @@ router.get('/date/:date', async (req, res) => {
         
         const dateObj = new Date(date);
 
-        // Fetch all attendance records for the given date
         const attendance = await Attendance.find({
             date: {
                 $gte: new Date(dateObj.setHours(0, 0, 0, 0)),  
@@ -67,11 +61,11 @@ router.get('/date/:date', async (req, res) => {
         if (attendance.length > 0) {
             res.status(200).json(attendance);
         } else {
-            res.status(404).json({ message: 'No attendance records found for this date' });
+            res.status(404).json({ message: 'No attendance for this date' });
         }
     } catch (err) {
         console.error('Error fetching attendance by date:', err);
-        res.status(500).json({ error: 'Failed to fetch attendance by date' });
+        res.status(500).json({ error: 'error while fetch attendance by date' });
     }
 });
 
@@ -79,13 +73,11 @@ router.get('/date/:date', async (req, res) => {
 // Get attendance by employee_id
 // TEST_case 
 // http://localhost:5000/api/attendance/67d167d8041f87401871c44f wworking +
-
-
 router.get('/:employee_id', async (req, res) => {
     const { employee_id } = req.params;  
 
     try {
-        const attendance = await Attendance.find({ employee_id: employee_id });  // Find all attendance records for the specific employee
+        const attendance = await Attendance.find({ employee_id: employee_id });
         if (attendance.length > 0) {
             res.status(200).json(attendance);
         } else {

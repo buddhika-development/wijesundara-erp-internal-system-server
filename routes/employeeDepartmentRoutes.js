@@ -2,7 +2,7 @@ const express = require('express');
 const { EmployeeDepartment } = require('../models/HRDepartment');
 const router = express.Router();
 
-// Create Employee-Department-JobRole Relation
+// Create Employee-Department-JobRole table relation
 router.post('/', async (req, res) => {
     try {
         const relation = new EmployeeDepartment(req.body);
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Get all Relations
+// get all relations
 router.get('/', async (req, res) => {
     try {
         const relations = await EmployeeDepartment.find()
