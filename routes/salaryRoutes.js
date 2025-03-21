@@ -17,7 +17,7 @@ const calculateSalary = (basicSalary, extraDays, monthlyBonus, attendanceBonusPe
     basicSalary = Number(basicSalary) || 0;
     extraDays = Number(extraDays) || 0;
     monthlyBonus = Number(monthlyBonus) || 0;
-    attendanceBonusPerExtraDay = Number(attendanceBonusPerExtraDay) || 0;
+    attendanceBonusPerExtraDay = Number(attendanceBonusPerExtraDay) || 200;
 
     const employeeEpf = basicSalary * employeeEpfRate;
     const employerEpf = basicSalary * employerEpfRate;
@@ -60,7 +60,6 @@ router.get("/:employee_id/:year/:month", async (req, res) => {
         const monthlyBonus = jobRole.monthly_bonus;
         const attendanceBonusPerExtraDay = jobRole.attendance_bonus_per_extra_day;
 
-        // Log values for debugging
         console.log("Job Role:", jobRole.job_role_name);
         console.log("Base Salary:", baseSalary);
         console.log("Monthly Bonus:", monthlyBonus);

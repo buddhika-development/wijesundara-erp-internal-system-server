@@ -88,4 +88,33 @@ router.get('/:employee_id', async (req, res) => {
     }
 });
 
+//uodate attendance
+router.put('/update/:employee_id/:date', async (req, res) => {
+    const { employee_id, date } = req.params;
+    const { attended } = req.body;
+
+    try {
+        const attendance = await Attendance.findOneAndUpdate(
+            {
+                employee_id,
+                date: {
+                    $gte: new Date(new Date(date).setHours(0, 0, 0, 0)),
+                    $lt: new Date(new Date(date).setHours(23, 59, 59, 999))
+                }
+            },
+            { attended },
+            { new: true }
+        );
+
+        if (!attendance) {
+            return res.status(404).json({ error: 'Attendance record not found' });
+        }
+
+        res.status(200).json({ message: 'Attendance updated', attendance });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error failed to update attendance' });
+    }
+});
+
 module.exports = router;
