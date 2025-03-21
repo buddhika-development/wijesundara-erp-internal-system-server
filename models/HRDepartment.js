@@ -113,6 +113,29 @@ const AttendanceSchema = new mongoose.Schema({
     }
 });
 
+const BankRequests = new mongoose.Schema({
+    sec_id: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number, 
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: false
+    },
+    bankAccount: {
+        type: String,
+        required: false
+    }
+});
+
 // Models 
 const Department = mongoose.model('Department', DepartmentSchema);
 const Employee = mongoose.model('Employee', EmployeeSchema);
@@ -120,6 +143,7 @@ const JobRole = mongoose.model('JobRole', JobRoleSchema);
 const Attendance = mongoose.model('Attendance', AttendanceSchema);
 const EmployeeDepartment = mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema);
 
+const request = mongoose.model('request', BankRequests, "All");
 
-module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment };
+module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment, request };
 

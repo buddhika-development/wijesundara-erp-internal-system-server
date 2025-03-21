@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Attendance, EmployeeDepartment, JobRole } = require("../models/HRDepartment");
+const { Attendance, EmployeeDepartment, request, JobRole } = require("../models/HRDepartment");
 
 const getMonthRange = (year, month) => {
     const firstDay = new Date(year, month - 1, 1);
@@ -92,5 +92,25 @@ router.get("/:employee_id/:year/:month", async (req, res) => {
         return res.status(500).json({ error: "Failed to calculate salary." });
     }
 });
+
+router.post("/requestApproval", async (req, res) => {
+    const { year, month, totalSalary, bankAccount } = req.body;
+  
+    try {
+      const requestInstance = new request({
+        sec_id: "HR123",
+        amount: totalSalary,
+        description: `Employee salaries for ${year} ${month}`,
+        status: "",
+        bankAccount: bankAccount || null,
+      });
+  
+      await requestInstance.save();
+      res.status(201).json({ message: "Approval request submitted successfully", request: requestInstance });
+    } catch (error) {
+      console.error("Error submitting approval request:", error.message, error.stack);
+      res.status(500).json({ error: "Failed to submit approval request" });
+    }
+  });
 
 module.exports = router;
