@@ -7,18 +7,33 @@ router.post('/add', async (req, res) => {
   const { vehicleNumber, fuelCost, mileage, date } = req.body;
 
   try {
-    // Step 1: Check if vehicle exists
+    // Step 1: Vehicle Number Length Validation
+    if (!vehicleNumber || vehicleNumber.length > 8) {
+      return res.status(400).json({ message: 'Vehicle number must be 8 characters or less!' });
+    }
+
+    // Step 2: Date Validation
+    const submittedDate = new Date(date);
+    const today = new Date();
+    submittedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (submittedDate > today) {
+      return res.status(400).json({ message: 'Future dates are not allowed!' });
+    }
+
+    // Step 3: Check if vehicle exists
     const vehicle = await Vehicle.findOne({ vehicle_Num: vehicleNumber });
 
     if (!vehicle) {
       return res.status(404).json({ message: 'Vehicle is not in the system!' });
     }
 
-    // Step 2: Check if fuel & mileage record exists
+    // Step 4: Check if fuel & mileage record exists
     let record = await VehicleMillageFuel.findOne({ vehicle_Num: vehicleNumber });
 
     if (record) {
-      // Update existing record (add up values)
+      // Update existing record
       record.vehicle_Fuel += parseFloat(fuelCost);
       record.vehicle_Milage += parseFloat(mileage);
       record.vehicle_FuelDate = date;

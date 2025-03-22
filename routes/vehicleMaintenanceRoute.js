@@ -7,6 +7,11 @@ router.post('/add', async (req, res) => {
   try {
     const { vehicleNumber, maintenanceCost, description, date } = req.body;
 
+    // Validate vehicle number length
+    if (vehicleNumber.length > 8) {
+      return res.status(400).json({ message: 'Vehicle number cannot exceed 8 characters.' });
+    }
+
     // Check if vehicle exists
     const vehicle = await Vehicle.findOne({ vehicle_Num: vehicleNumber });
 
@@ -14,7 +19,17 @@ router.post('/add', async (req, res) => {
       return res.status(404).json({ message: 'Vehicle is not in the system!' });
     }
 
-    // Save as separate record (no totals)
+    // Check future date
+    const submittedDate = new Date(date);
+    const today = new Date();
+    submittedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (submittedDate > today) {
+      return res.status(400).json({ message: 'Future dates are not allowed for maintenance records.' });
+    }
+
+    // Save as separate record
     const record = new VehicleMaintenance({
       vehicle_Num: vehicleNumber,
       vehicle_MainCost: parseFloat(maintenanceCost),
@@ -32,6 +47,7 @@ router.post('/add', async (req, res) => {
   }
 });
 
+// Get records
 router.get('/', async (req, res) => {
   try {
     const records = await VehicleMaintenance.find();
