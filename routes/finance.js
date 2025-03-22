@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { request, section,pending ,bank,total} = require('../models/request');
+const { request, section , pending ,bank,total} = require('../models/request');
 
 
 
@@ -86,6 +86,9 @@ router.get('/requests1', async (req, res) => {
       } else if (sec_id === "Tra123") {
        
         requests = await request.find({ status: status , sec_id: sec_id});
+      }   else if (sec_id === "ST123") {
+       
+        requests = await request.find({ status: status , sec_id: sec_id});
       }
   
       console.log("duum", requests);
@@ -125,30 +128,32 @@ router.post('/all', async (req, res) => {
 });
 
 
-
 router.post('/pending', async (req, res) => {
-    const { sec_id } = req.body;
-    console.log(sec_id);
-    console.log("zzzzzzzzzzzzzzzzzzzzzzzz");
-   
-    try {
-        console.log("methana ok");
+  const { sec_id } = req.body;
+  console.log(sec_id);
+  console.log("zzzzzzzzzzzzzzzzzzzzzzzz");
+ 
+  try {
+      console.log("methana ok");
 
-        if (mongoose.connection.readyState !== 1) {
-            throw new Error("Mongoose is not connected to MongoDB");
-        }
+      if (mongoose.connection.readyState !== 1) {
+          throw new Error("Mongoose is not connected to MongoDB");
+      }
 
-        
-        const requests = await pending.find({  sec_id: sec_id });
+      let requests; 
+      if (sec_id == null) {
+          requests = await pending.find({});
+      } else {
+          requests = await pending.find({ sec_id: sec_id }); 
+      }
 
-        console.log(requests);
-        res.status(200).json({ requests });
-    } catch (err) {
-        console.error("Error fetching requests:", err);
-        res.status(500).json({ message: "Internal server error", error: err.message });
-    }
+      console.log("pendings", requests);
+      res.status(200).json(requests);
+  } catch (err) {
+      console.error("Error fetching requests:", err);
+      res.status(500).json({ message: "Internal server error", error: err.message });
+  }
 });
-
 router.post('/Bank',async(req,res) =>
 {
   const {bank_id} = req.body;
@@ -177,6 +182,75 @@ router.post('/Bank',async(req,res) =>
     res.status(500).json({ message: "Internal server error", error: err.message });
 }
 })
+router.post('/api/inaction/:id', async (req, res) => {
+  const { amount, bankName, sec_id, status } = req.body;
+  const validStatuses3 = ["INB123"];
+
+  console.log("enoooo", amount, bankName, sec_id, status);
+
+  try {
+    
+
+    const bankAccount = await bank.findOne({ bank_id: bankName });
+    console.log("fetched", bankAccount);
+    
+    const bankAccount1 = await bank.findOne({bank_id: "BO123" })
+    const bankAccount2 = await bank.findOne({bank_id: "HN123" })
+    const bankAccount3 = await bank.findOne({bank_id: "RD123" })
+
+console.log(bankAccount1)
+    const newAmount = bankAccount.Bamount + (amount);
+    const newAmount1 =bankAccount1.Bamount + parseFloat(((amount)*30/100).toFixed(2));
+    const newAmount2 =bankAccount2.Bamount + parseFloat(((amount)*20/100).toFixed(2));
+    const newAmount3 =bankAccount3.Bamount + parseFloat(((amount)*10/100).toFixed(2));
+    const newAmount22 = bankAccount.Bamount + ((amount)-( parseFloat(amount*60/100).toFixed(2)));
+
+    console.log("BO",newAmount1);
+    console.log("HN",newAmount2);
+    console.log("RD",newAmount3);
+
+    console.log("updated value", newAmount22);
+
+    const updatedRequest1 = await bank.findOneAndUpdate(
+      { bank_id: "RD123" },
+      { Bamount: newAmount3 },
+      { new: true, runValidators: true }
+    );
+    const updatedRequest2 = await bank.findOneAndUpdate(
+      { bank_id: "HN123" },
+      { Bamount: newAmount2 },
+      { new: true, runValidators: true }
+    );
+    const updatedRequest4 = await bank.findOneAndUpdate(
+      { bank_id: "BO123" },
+      { Bamount: newAmount1 },
+      { new: true, runValidators: true }
+    );
+    const updatedRequest3 = await bank.findOneAndUpdate(
+      { bank_id: bankName },
+      { Bamount: newAmount22 },
+      { new: true, runValidators: true }
+    );
+
+   
+
+    let updatedRequest = null;
+    const idd = await request.findOne({ sec_id: sec_id });
+    if (idd && idd.sec_id === "IN123") {
+      updatedRequest = await request.findByIdAndUpdate(
+        req.params.id,
+        { status: status },
+        { new: true, runValidators: true }
+      );
+     
+    }
+
+   
+  } catch (error) {
+    console.error("Error updating bank account:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 router.post('/api/action/:id', async (req, res) => {
     console.log("hi hi");
@@ -189,7 +263,7 @@ router.post('/api/action/:id', async (req, res) => {
     const {approveAmount} =req.body;
     const {bankAccount} =req.body;
     console.log("anuda",bankAccount); 
-
+    console.log("anudaSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"); 
     console.log("anuda",status); 
     try {
     const validStatuses2 = ["approve", "decline"];
