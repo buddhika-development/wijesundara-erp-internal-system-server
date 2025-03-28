@@ -17,31 +17,37 @@ const DepartmentSchema = new mongoose.Schema({
 const EmployeeSchema = new mongoose.Schema({
     employee_id: {
         type: Number,
-        required: true,
-        unique: true
+        required: [true, "Employee ID is required"],
+        unique: true,
+        min: [1, "Employee ID must be a positive number"],
     },
     employee_name: {
         type: String,
-        required: true
+        required: [true, "Name is required"],
+        match: [/^[a-zA-Z\s]+$/, "Name must contain only letters and spaces"]
     },
     employee_dob: {
         type: Date,
-        required: true
+        required: [true, "Date of Birth is required"]
     },
     employee_address_address_line_one: {
         type: String,
-        required: true
+        required: [true, "Address Line 1 is required"]
     },
     employee_address_address_line_two: {
         type: String
     },
     employee_address_address_city: {
         type: String,
-        required: true
+        required: true,
+        match: [/^[a-zA-Z\s]+$/, "City must contain only letters and spaces"]
     },
     employee_bank_account_number: {
         type: Number,
-        required: true
+        required: true,
+        match: [/^\d+$/, "Bank account number must contain only numbers"],
+        // minLength: [8, "Bank account Number must be at least 8 digits"],
+        // maxLength: [16, "Bank account number must not exceed 16 digits"]
     },
     employee_status: {
         type: String,

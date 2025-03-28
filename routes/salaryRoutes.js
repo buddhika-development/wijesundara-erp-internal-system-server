@@ -113,4 +113,17 @@ router.post("/requestApproval", async (req, res) => {
     }
   });
 
+  router.get("/approvedRequests", async (req, res) => {
+    try {
+      const approvedRequests = await request.find({ status: "approved" });
+      if (!approvedRequests || approvedRequests.length === 0) {
+        return res.status(404).json({ message: "No approved requests found." });
+      }
+      res.status(200).json(approvedRequests);
+    } catch (error) {
+      console.error("Error fetching approved requests:", error);
+      res.status(500).json({ error: "Failed to fetch approved requests." });
+    }
+  });
+
 module.exports = router;
