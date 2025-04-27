@@ -13,7 +13,6 @@ const calculateSalary = (basicSalary, extraDays, monthlyBonus, attendanceBonusPe
     const employerEpfRate = 0.12;  
     const employerEtfRate = 0.03; 
 
-        //set to 0 if fields are invalid or nan 
     basicSalary = Number(basicSalary) || 0;
     extraDays = Number(extraDays) || 0;
     monthlyBonus = Number(monthlyBonus) || 0;
@@ -29,7 +28,6 @@ const calculateSalary = (basicSalary, extraDays, monthlyBonus, attendanceBonusPe
 
     return { employeeEpf, employerEpf, employerEtf, attendanceBonus, netSalary, totalEmployerCost };
 };
-
 
 router.get("/:employee_id/:year/:month", async (req, res) => {
     const { employee_id, year, month } = req.params;
@@ -111,19 +109,19 @@ router.post("/requestApproval", async (req, res) => {
       console.error("Error submitting approval request:", error.message, error.stack);
       res.status(500).json({ error: "Failed to submit approval request" });
     }
-  });
+});
 
-  router.get("/approvedRequests", async (req, res) => {
+router.get("/approvedRequests", async (req, res) => {
     try {
-      const approvedRequests = await request.find({ status: "approved" });
+      const approvedRequests = await request.find({ status: "approve", sec_id: "HR123" });
       if (!approvedRequests || approvedRequests.length === 0) {
-        return res.status(404).json({ message: "No approved requests found." });
+        return res.status(404).json({ message: "No approved requests found for HR123." });
       }
       res.status(200).json(approvedRequests);
     } catch (error) {
       console.error("Error fetching approved requests:", error);
       res.status(500).json({ error: "Failed to fetch approved requests." });
     }
-  });
+});
 
 module.exports = router;
