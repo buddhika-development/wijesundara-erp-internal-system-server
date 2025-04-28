@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// inter transportaiton tasks details
 const TransportationTaskSchema = new mongoose.Schema({
     transportation_source : {
         type : mongoose.Schema.Types.ObjectId,
@@ -22,7 +23,12 @@ const TransportationTaskSchema = new mongoose.Schema({
     rice_type : {
         type : String,
         required : true
+    },
+    stock_amount : {
+        type : Number,
+        required : true
     }
+
 })
 
 

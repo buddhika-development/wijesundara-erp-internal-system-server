@@ -4,7 +4,7 @@ const Stock = require('../../models/Stock')
 const router = express.Router()
 
 router.get('/', async (req,res) => {
-    const purchases = await Purchase.find()
+    const purchases = await Purchase.find().sort({ purchase_date: -1 })
     res.status(200).json(purchases) 
 })
 

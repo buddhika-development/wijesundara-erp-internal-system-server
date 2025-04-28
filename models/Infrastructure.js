@@ -9,7 +9,7 @@ const InfrastructureSchema = new mongoose.Schema({
         type : "String",
         required : true
     },
-    ingfrastructuire_address_line_one : {
+    infrastructure_address_line_one : {
         type : "String",
         required : true
     },
@@ -20,7 +20,7 @@ const InfrastructureSchema = new mongoose.Schema({
         type : "String",
         required : true
     },
-    ingfrastructuire_address_city : {
+    infrastructure_address_city : {
         type : "String",
         required : true
     },

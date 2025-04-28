@@ -43,10 +43,10 @@ router.post('/', async (req,res) => {
                 const result = await Infrastructure.create({
                     infrastructure_name : infrastructuer_name,
                     infrastructure_type : infrastructuer_type,
-                    ingfrastructuire_address_line_one : infrastructure_address_line_one,
+                    infrastructure_address_line_one : infrastructure_address_line_one,
                     infrastructure_address_line_two : infrastructure_address_line_two,
                     infrastructure_address_district : infrastructure_address_district,
-                    ingfrastructuire_address_city : ingfrastructuire_address_city,
+                    infrastructure_address_city : ingfrastructuire_address_city,
                     contact_number : contact_number
                 })
     
@@ -85,14 +85,13 @@ router.post('/', async (req,res) => {
 })
 
 
+// access the infrastructure details using the infrastructure unique id
 router.get('/infrastructures/:infrastructure_id' , async (req, res) => {
 
     const infrastructure_type = req.params.infrastructure_id; 
 
     try{
-        const infrastructuers = await Infrastructure.find({
-            infrastructure_type : infrastructure_type
-        })
+        const infrastructuers = await Infrastructure.findById(infrastructure_type)
         res.status(200).json(infrastructuers)
     }
     catch(err) {

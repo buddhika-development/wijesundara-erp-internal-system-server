@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const TransportationTask = require('../../models/StockTransportation')
+const TransportationTask = require('../../models/StockTransportation');
+const { route } = require('../salaryRoutes');
 const router = express.Router()
 
 const TransportationTaskAssignmentModel = TransportationTask.TransportationTaskAssignment;
@@ -99,7 +100,7 @@ router.get('/trasnportation_task_assginment', async (req, res) => {
 })
 
 
-
+// access the single transportation task details using the transportation id
 router.get('/task/:task_id' , async (req, res) => {
     const task_id = req.params.task_id;
     console.log(task_id)    
@@ -110,9 +111,7 @@ router.get('/task/:task_id' , async (req, res) => {
         })
         console.log(task)
 
-        res.json({
-            'message' : 'success'
-        })        
+        res.status(200).json(task[0])        
     }
     catch(err) {
         res.status(500).json({
@@ -183,6 +182,45 @@ router.get('/trasnportation_task_assginment/stats' , async (req, res) => {
     }
 })
 
+
+
+// route about access the pending transportaion details
+router.get('/task/status/pending', async (req, res) => {
+    try{
+        const pending_tasks = await TransportationTaskModel.find({transportation_status : "waiting"})
+        const pending_tasks_full_details = []
+
+        for (let pending_task of pending_tasks){
+            const transaction_source_id = pending_task.transportation_source
+            const transaction_destination_id = pending_task.transportation_destination
+
+            // transportaiton source detials
+            const transaction_source_response = await fetch(`http://localhost:8080/api/infrastructure/infrastructures/${transaction_source_id}`)
+            const transaction_source_details = await transaction_source_response.json()
+            
+            // transaport destination details
+            const transaction_destination_response = await fetch(`http://localhost:8080/api/infrastructure/infrastructures/${transaction_destination_id}`)
+            const transaction_destination_details = await transaction_destination_response.json()
+
+            const full_details = {
+                task_details: pending_task.toObject(),
+                source_details: transaction_source_details,
+                destination_details: transaction_destination_details
+            }
+
+            pending_tasks_full_details.push(full_details)
+            
+        }
+        
+        res.status(200).json(pending_tasks_full_details)
+    }
+    catch(err){
+        console.log(`Something went wrong in data fetching in pending task searching process... ${err}`)
+        res.status(500).json({
+            'message' : `Sometihng went wrong in fetching data in the pending task.... ${err}`
+        })
+    }
+})
 
 
 module.exports = router

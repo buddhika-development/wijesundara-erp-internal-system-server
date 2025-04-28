@@ -6,6 +6,9 @@ const BidSchema = new mongoose.Schema({
         ref : 'Supplier',
         required : true
     },
+    placed_date:{
+        type : Date,
+    },
     rice_varient : {
         type: mongoose.Schema.Types.ObjectId,
         ref : "RiceVarient",

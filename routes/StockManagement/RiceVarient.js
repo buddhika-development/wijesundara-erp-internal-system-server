@@ -42,6 +42,8 @@ router.post('/', async (req, res) => {
     
 })
 
+
+// access the rice varient details through the api endpoint using the mongodb database and 
 router.get('/:id', async (req,res) => {
     const rice_varient_id = req.params.id;
 
@@ -63,7 +65,6 @@ router.get('/:id', async (req,res) => {
             'message' : 'Something happening bad in backend rice type finding... ' + err
         })
     }
-
     
 })
 
