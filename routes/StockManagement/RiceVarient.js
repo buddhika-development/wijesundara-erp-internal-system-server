@@ -19,7 +19,6 @@ router.get('/', async (req, res) => {
 
 // add new rice varient
 router.post('/', async (req, res) => {
-
     // access the data from request body
     const rice_type = req.body.rice_type.trim()
 
@@ -40,6 +39,31 @@ router.post('/', async (req, res) => {
             })
         }
     } 
+    
+})
+
+router.get('/:id', async (req,res) => {
+    const rice_varient_id = req.params.id;
+
+    try{
+        const rice_type_details = await RiceVarient.findById(rice_varient_id)
+        
+        if (rice_type_details){
+            res.status(200).json(rice_type_details)
+        }
+        else{
+            res.status(404).json({
+                'message' : 'There is no that kind of rice type. please check the detials.'
+            })
+        }
+    }
+    catch(err){
+        console.error(`Something went wrong in data accessing in rice varient.. ${err}`)
+        res.status(500).json({
+            'message' : 'Something happening bad in backend rice type finding... ' + err
+        })
+    }
+
     
 })
 

@@ -25,8 +25,7 @@ router.post('/', async (req, res) => {
     const stock_status = req.body.stock_status.trim()
     const stock_place = req.body.stock_place.trim()
     const last_update_date = Date.now()
-
-
+    
     if (rice_type && stock_amount && stock_status && stock_place) {
         try{
     
