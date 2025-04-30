@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const db_connection = require('./utils/db');
 
+const db_connection = require('./utils/db');
+const finance_router = require('./routes/finance');
 const salaryRoutes = require('./routes/salaryRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
@@ -10,7 +11,6 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 const employeeDepartmentRoutes = require('./routes/employeeDepartmentRoutes');
 
 const cors = require('cors');
-
 dotenv.config();
 
 // configure basic app
@@ -22,6 +22,7 @@ app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 // api routers
+app.use('/', finance_router);
 app.use('/api/salary', salaryRoutes);
 app.use('/api/employee', employeeRoutes);
 app.use('/api/department', departmentRoutes);
