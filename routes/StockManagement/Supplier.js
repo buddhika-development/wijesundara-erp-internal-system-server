@@ -22,6 +22,9 @@ router.get('/supplier/:id', async(req, res) => {
 
     try{
         const supplier_id = req.params.id
+
+        console.log(supplier_id)
+        
         const supplier_details = await Supplier.findById(supplier_id)
         res.status(200).json(supplier_details)
     }

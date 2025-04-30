@@ -9,6 +9,41 @@ router.get('/', async (req,res) => {
 })
 
 
+router.get('/purchase/:id', async(req, res) => {
+
+    try{
+        const id = req.params.id
+        const purchase = await Purchase.findById(id)
+    
+        res.status(200).json(purchase)
+    }
+    catch(err) {
+        res.status(500).json({
+            'message' : 'Something went wrong in the process...'
+        })
+    }
+})
+
+
+router.delete('/purchase/remove/:id', async (req,res) => {
+
+    try{
+        const id = req.params.id
+        const purchase = await Purchase.findByIdAndDelete(id)
+
+        res.status(200).json({
+            'message' : 'Successfully removed..'
+        })
+    }
+    catch(err){
+        console.log(`Something went wrong in the puchase remove process... ${err}`)
+        res.status(500).json({
+            'message' : 'Something went wrong...'
+        })
+    }
+})
+
+
 router.get('/purchase_stats', async (req, res) => {
 
     try {
@@ -30,7 +65,13 @@ router.get('/purchase_stats', async (req, res) => {
 
                             if(purchase["rice_varient"] === rice_varient["_id"]){   
                                 const temp_details = {...purchase, ...supplier, ...rice_varient}
-                                purchases_details.push(temp_details)
+
+                                const purchase_details = {
+                                    purchase_details : purchase,
+                                    supplier : supplier,
+                                    rice_varient : rice_varient
+                                }
+                                purchases_details.push(purchase_details)
                             }
                         }
                     }
@@ -58,9 +99,6 @@ router.post('/add_purchase', async (req, res) => {
     const rice_type = req.body.rice_type
     const stock_amount = req.body.stock_amount
     const last_update_date = Date.now() 
-
-
-    console.log('supplier id ' + supplier_id + " rice type " + rice_type + "stock amount " + stock_amount)
     
     if (rice_type != "" && stock_amount != "" && supplier_id != "") {
         try{
