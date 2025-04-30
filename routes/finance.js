@@ -89,6 +89,9 @@ router.get('/requests1', async (req, res) => {
       }   else if (sec_id === "ST123") {
        
         requests = await request.find({ status: status , sec_id: sec_id});
+      }   else if (sec_id === "IN123") {
+       
+        requests = await request.find({ status: status , sec_id: sec_id});
       }
   
       console.log("duum", requests);
@@ -183,14 +186,12 @@ router.post('/Bank',async(req,res) =>
 }
 })
 router.post('/api/inaction/:id', async (req, res) => {
-  const { amount, bankName, sec_id, status } = req.body;
+  const { amount, bankName, sec_id, status, date } = req.body;
   const validStatuses3 = ["INB123"];
 
   console.log("enoooo", amount, bankName, sec_id, status);
 
   try {
-    
-
     const bankAccount = await bank.findOne({ bank_id: bankName });
     console.log("fetched", bankAccount);
     
@@ -198,11 +199,11 @@ router.post('/api/inaction/:id', async (req, res) => {
     const bankAccount2 = await bank.findOne({bank_id: "HN123" })
     const bankAccount3 = await bank.findOne({bank_id: "RD123" })
 
-console.log(bankAccount1)
+    console.log(bankAccount1)
     const newAmount = bankAccount.Bamount + (amount);
-    const newAmount1 =bankAccount1.Bamount + parseFloat(((amount)*30/100).toFixed(2));
-    const newAmount2 =bankAccount2.Bamount + parseFloat(((amount)*20/100).toFixed(2));
-    const newAmount3 =bankAccount3.Bamount + parseFloat(((amount)*10/100).toFixed(2));
+    const newAmount1 = bankAccount1.Bamount + parseFloat(((amount)*30/100).toFixed(2));
+    const newAmount2 = bankAccount2.Bamount + parseFloat(((amount)*20/100).toFixed(2));
+    const newAmount3 = bankAccount3.Bamount + parseFloat(((amount)*10/100).toFixed(2));
     const newAmount22 = bankAccount.Bamount + ((amount)-( parseFloat(amount*60/100).toFixed(2)));
 
     console.log("BO",newAmount1);
@@ -232,20 +233,15 @@ console.log(bankAccount1)
       { new: true, runValidators: true }
     );
 
-   
-
     let updatedRequest = null;
     const idd = await request.findOne({ sec_id: sec_id });
     if (idd && idd.sec_id === "IN123") {
       updatedRequest = await request.findByIdAndUpdate(
         req.params.id,
-        { status: status },
+        { status: status, date: date }, // Include date in the update
         { new: true, runValidators: true }
       );
-     
     }
-
-   
   } catch (error) {
     console.error("Error updating bank account:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -292,6 +288,7 @@ router.post('/api/action/:id', async (req, res) => {
                 {
                   amount: approveAmount, 
                   bankAccount:bankAccount,
+                  date:date
                 },
                 { new: true, runValidators: true }
               );
@@ -303,7 +300,7 @@ router.post('/api/action/:id', async (req, res) => {
                 bank1._id,
                 {
                     Bamount:  bank1.Bamount, 
-                 
+                    date:date
                 },
                 { new: true, runValidators: true }
               );
