@@ -9,6 +9,13 @@ const departmentRoutes = require('./routes/departmentRoutes');
 const jobroleRoutes = require('./routes/jobroleRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const employeeDepartmentRoutes = require('./routes/employeeDepartmentRoutes');
+const bidRoute = require('./routes/StockManagement/Bid')
+const intrastructureRoute = require('./routes/StockManagement/Infrastructure')
+const purchasesRoute = require('./routes/StockManagement/Purchase')
+const riceVarientRoute = require('./routes/StockManagement/RiceVarient')
+const stockRoute = require('./routes/StockManagement/stock')
+const stockTransportaionRoute = require('./routes/StockManagement/StockTransportation')
+const supplierRoute = require('./routes/StockManagement/Supplier')
 
 const cors = require('cors');
 dotenv.config();
@@ -29,6 +36,14 @@ app.use('/api/department', departmentRoutes);
 app.use('/api/jobrole', jobroleRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/relation', employeeDepartmentRoutes);
+
+app.use('/api/stock', stockRoute)
+app.use('/api/infrastructure', intrastructureRoute)
+app.use('/api/rice_varient', riceVarientRoute)
+app.use('/api/transportaion_task', stockTransportaionRoute)
+app.use('/api/suppliers', supplierRoute)
+app.use('/api/bids', bidRoute)
+app.use('/api/purchase', purchasesRoute)
 
 // Database connection
 db_connection();
