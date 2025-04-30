@@ -24,7 +24,7 @@ router.patch('/update_task/:id', async(req,res) => {
 
     try{
         const task_id = "680efa1bc93e06cad3bbd91b";
-        const task = await TransportationTask.findById(task_id)
+        const task = await TransportationTask.find(task_id)
         
         res.json('message')
     }
