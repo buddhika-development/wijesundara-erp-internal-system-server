@@ -149,7 +149,7 @@ const JobRole = mongoose.model('JobRole', JobRoleSchema);
 const Attendance = mongoose.model('Attendance', AttendanceSchema);
 const EmployeeDepartment = mongoose.model('EmployeeDepartment', EmployeeDepartmentSchema);
 
-const request = mongoose.model('request', BankRequests, "All");
+const request2 = mongoose.model('request2', BankRequests, "All");
 
-module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment, request };
+module.exports = { Department, Employee, JobRole, Attendance, EmployeeDepartment, request2 };
 

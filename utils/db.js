@@ -7,7 +7,8 @@ dotenv.config()
 const db_connection = async() => {
 
     // access database connection string
-    const MONGO_CONNECTION_STRING = process.env.MONGO_STRING
+    const MONGO_CONNECTION_STRING = "mongodb+srv://senevirathnaanuda:finance@cluster0.gzql2.mongodb.net/HRdepartmentDB?retryWrites=true&w=majority&appName=Cluster0";
+
 
     if(MONGO_CONNECTION_STRING != null) {
 
