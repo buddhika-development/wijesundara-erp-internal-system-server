@@ -23,10 +23,22 @@ router.get('/', async (req,res) => {
 router.patch('/update_task/:id', async(req,res) => {
 
     try{
-        const task_id = "680efa1bc93e06cad3bbd91b";
+        const task_id = req.params.id;
         const task = await TransportationTask.findById(task_id)
+
+        if (!task) {
+            res.status(404).json({
+                'message' : 'There are no any valid data related to provide details'
+            })
+        }
+
+        await TransportationTask.findByIdAndUpdate(task_id, {
+            transportation_status : "done"
+        })
         
-        res.json('message')
+        res.status(202).json({
+            'message' : 'Successfully updated.'
+        })
     }
     catch(err){
         console.log(`Something went wrong in transporation state update process... ${err}`)
@@ -189,8 +201,8 @@ router.get('/trasnportation_task_assginment/stats' , async (req, res) => {
                         }
                         
                         transportaion_assignment_full_details.push({
-                            ...transport_task, 
-                            ...transportaion_task_assignment,
+                            transport_task : transport_task,
+                            transportaion_task_assignment : transportaion_task_assignment,
                             source : source_details,
                             destination : destination_detail
                         })
