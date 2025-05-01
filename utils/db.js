@@ -7,7 +7,7 @@ dotenv.config()
 const db_connection = async() => {
 
     // access database connection string
-    const MONGO_CONNECTION_STRING = process.env.MONGO_STRING
+    const MONGO_CONNECTION_STRING = process.env.MONGO_STRING;
 
 
     if(MONGO_CONNECTION_STRING != null) {
