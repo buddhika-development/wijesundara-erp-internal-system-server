@@ -20,15 +20,14 @@ const supplierRoute = require('./routes/StockManagement/Supplier')
 const cors = require('cors');
 dotenv.config();
 
-// configure basic app
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
 // access port values
 const PORT = process.env.PORT || 5000;
 
-// api routers
 app.use('/', finance_router);
 app.use('/api/salary', salaryRoutes);
 app.use('/api/employee', employeeRoutes);
@@ -45,10 +44,8 @@ app.use('/api/suppliers', supplierRoute)
 app.use('/api/bids', bidRoute)
 app.use('/api/purchase', purchasesRoute)
 
-// Database connection
 db_connection();
 
-// Start server
 app.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
 });

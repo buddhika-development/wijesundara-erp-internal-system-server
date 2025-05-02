@@ -20,6 +20,10 @@ const requests = new mongoose.Schema({
     bankAccount: {
         type: String,
         required: true 
+    },
+    date: {
+        type: Date,
+        required: true 
     }
 });
 
