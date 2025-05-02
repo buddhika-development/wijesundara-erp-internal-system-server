@@ -40,17 +40,26 @@ router.post('/add', async (req, res) => {
     await record.save();
 
     res.status(200).json({ message: 'Maintenance record added successfully!', data: record });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error adding maintenance record', error: err.message });
   }
 });
 
-// Get records
+// Get maintenance records with optional filters
 router.get('/', async (req, res) => {
   try {
-    const records = await VehicleMaintenance.find();
+    const { vehicleNum, dateFrom, dateTo } = req.query;
+    const query = {};
+
+    if (vehicleNum) query.vehicle_Num = { $regex: vehicleNum, $options: 'i' };
+    if (dateFrom || dateTo) {
+      query.vehicle_MainDate = {};
+      if (dateFrom) query.vehicle_MainDate.$gte = new Date(dateFrom);
+      if (dateTo) query.vehicle_MainDate.$lte = new Date(dateTo);
+    }
+
+    const records = await VehicleMaintenance.find(query);
     res.status(200).json(records);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching maintenance records', error: err.message });
