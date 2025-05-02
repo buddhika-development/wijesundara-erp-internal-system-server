@@ -17,6 +17,10 @@ const stockRoute = require('./routes/StockManagement/stock')
 const stockTransportaionRoute = require('./routes/StockManagement/StockTransportation')
 const supplierRoute = require('./routes/StockManagement/Supplier')
 
+const vehicleRoutes = require('./routes/vehicleRoutes');
+const vehicleFuelRoutes = require('./routes/vehicleFuelRoutes');
+const vehicleMaintenanceRoutes = require('./routes/vehicleMaintenanceRoute');
+
 const cors = require('cors');
 dotenv.config();
 
@@ -43,6 +47,10 @@ app.use('/api/transportaion_task', stockTransportaionRoute)
 app.use('/api/suppliers', supplierRoute)
 app.use('/api/bids', bidRoute)
 app.use('/api/purchase', purchasesRoute)
+
+app.use('/api/vehicles', vehicleRoutes);
+app.use('/api/vehicle-fuel', vehicleFuelRoutes);
+app.use('/api/vehicle-maintenance', vehicleMaintenanceRoutes);
 
 db_connection();
 
