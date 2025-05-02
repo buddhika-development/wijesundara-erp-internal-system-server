@@ -125,9 +125,9 @@ router.get('/transportation_tasks/waiting', async (req, res) => {
 
         let task_full_details_list = []
         
-        const transportation_task_response = await fetch('http://localhost:8080/api/transportaion_task')
-        const infrastructure_response = await fetch('http://localhost:8080/api/infrastructure')
-        const rice_varient_response = await fetch("http://localhost:8080/api/rice_varient")
+        const transportation_task_response = await fetch('http://localhost:5000/api/transportaion_task')
+        const infrastructure_response = await fetch('http://localhost:5000/api/infrastructure')
+        const rice_varient_response = await fetch("http://localhost:5000/api/rice_varient")
 
         if (!transportation_task_response.ok || !infrastructure_response.ok || !rice_varient_response.ok) {
             throw new Error("Something went wtong in task details acessing process...")
@@ -172,9 +172,9 @@ router.get('/trasnportation_task_assginment/stats' , async (req, res) => {
     try{
         const transportaion_assignment_full_details = []
 
-        const transportation_task_response = await fetch('http://localhost:8080/api/transportaion_task')
-        const transportation_task_assignment_response  = await fetch('http://localhost:8080/api/transportaion_task/trasnportation_task_assginment')
-        const infrastructure_response = await fetch('http://localhost:8080/api/infrastructure')
+        const transportation_task_response = await fetch('http://localhost:5000/api/transportaion_task')
+        const transportation_task_assignment_response  = await fetch('http://localhost:5000/api/transportaion_task/trasnportation_task_assginment')
+        const infrastructure_response = await fetch('http://localhost:5000/api/infrastructure')
 
         if(transportation_task_assignment_response.ok && transportation_task_response.ok && infrastructure_response.ok) {
             const transportation_task_details = await transportation_task_response.json()
@@ -239,11 +239,11 @@ router.get('/task/status/pending', async (req, res) => {
             const transaction_destination_id = pending_task.transportation_destination
 
             // transportaiton source detials
-            const transaction_source_response = await fetch(`http://localhost:8080/api/infrastructure/infrastructures/${transaction_source_id}`)
+            const transaction_source_response = await fetch(`http://localhost:5000/api/infrastructure/infrastructures/${transaction_source_id}`)
             const transaction_source_details = await transaction_source_response.json()
             
             // transaport destination details
-            const transaction_destination_response = await fetch(`http://localhost:8080/api/infrastructure/infrastructures/${transaction_destination_id}`)
+            const transaction_destination_response = await fetch(`http://localhost:5000/api/infrastructure/infrastructures/${transaction_destination_id}`)
             const transaction_destination_details = await transaction_destination_response.json()
 
             const full_details = {

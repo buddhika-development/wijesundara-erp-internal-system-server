@@ -83,9 +83,9 @@ router.patch('/:stock_id', async (req, res) => {
 
 router.get('/availability_stats', async (req,res) => {
 
-    const stock_response = await fetch('http://localhost:8080/api/stock/')
-    const rice_varient_response = await fetch('http://localhost:8080/api/rice_varient')
-    const infrastructure_response = await fetch('http://localhost:8080/api/infrastructure')
+    const stock_response = await fetch('http://localhost:5000/api/stock/')
+    const rice_varient_response = await fetch('http://localhost:5000/api/rice_varient')
+    const infrastructure_response = await fetch('http://localhost:5000/api/infrastructure')
 
     if( stock_response.ok && rice_varient_response.ok && infrastructure_response.ok) {
         const stock_details = await stock_response.json()

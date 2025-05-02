@@ -12,10 +12,10 @@ router.get('/', async (req, res) => {
             const supplier_id = bid["supplier_id"]
             const rice_varient_id = bid["rice_varient"]
 
-            const supplier_response = await fetch(`http://localhost:8080/api/suppliers/supplier/${supplier_id}`)
+            const supplier_response = await fetch(`http://localhost:5000/api/suppliers/supplier/${supplier_id}`)
             const supplier_details = await supplier_response.json()
 
-            const rice_varient_response = await fetch(`http://localhost:8080/api/rice_varient/${rice_varient_id}`)
+            const rice_varient_response = await fetch(`http://localhost:5000/api/rice_varient/${rice_varient_id}`)
             const rice_varient_details = await rice_varient_response.json()
 
             const single_bid_details = {

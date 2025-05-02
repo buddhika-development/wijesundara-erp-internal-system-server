@@ -1,6 +1,7 @@
 const express = require('express')
 const Purchase = require('../../models/Purchase')
 const Stock = require('../../models/Stock')
+const { request2 } = require('../../models/HRDepartment')
 const router = express.Router()
 
 router.get('/', async (req,res) => {
@@ -89,9 +90,9 @@ router.patch('/purchase/update/reject/:id', async(req, res) => {
 router.get('/purchase_stats', async (req, res) => {
 
     try {
-        const purchase_response = await fetch('http://localhost:8080/api/purchase')
-        const supplier_response = await fetch('http://localhost:8080/api/suppliers')
-        const rice_varient_reponse = await fetch('http://localhost:8080/api/rice_varient')
+        const purchase_response = await fetch('http://localhost:5000/api/purchase')
+        const supplier_response = await fetch('http://localhost:5000/api/suppliers')
+        const rice_varient_reponse = await fetch('http://localhost:5000/api/rice_varient')
 
         let purchases_details =[];
 
@@ -172,6 +173,27 @@ router.post('/add_purchase', async (req, res) => {
     }
     
 })
+
+
+router.post("/requestApproval", async (req, res) => {
+    const { sec_id, amount, description, bank_account } = req.body;
+  
+    try {
+      const requestInstance = new request2({
+        sec_id: sec_id,
+        amount: amount,
+        description: description,
+        status: "",
+        bankAccount: bank_account || null,
+      });
+  
+      await requestInstance.save();
+      res.status(201).json({ message: "Approval request submitted successfully", request: requestInstance });
+    } catch (error) {
+      console.error("Error submitting approval request:", error.message, error.stack);
+      res.status(500).json({ error: "Failed to submit approval request" });
+    }
+});
 
 
 module.exports = router
