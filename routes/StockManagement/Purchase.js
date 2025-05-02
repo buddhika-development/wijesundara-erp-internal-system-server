@@ -44,6 +44,48 @@ router.delete('/purchase/remove/:id', async (req,res) => {
 })
 
 
+router.patch('/purchase/update/approve/:id', async(req, res) => {
+
+    try{
+        const id = req.params.id
+        const purchase = await Purchase.findByIdAndUpdate({
+            purchase_status : 'approved'
+        })
+
+        res.json(purchase)
+        
+    }
+    catch(err) {
+        console.log(`Something went wrong in data fetching process.. ${err}`)
+        res.status(500).json({
+            'message' : 'Something went wrong. check again.'
+        })
+    }
+    
+})
+
+router.patch('/purchase/update/reject/:id', async(req, res) => {
+
+    try{
+        const id = req.params.id
+        const purchase = await Purchase.findByIdAndUpdate({
+            purchase_status : 'reject'
+        })
+
+        res.json(purchase)
+        
+    }
+    catch(err) {
+        console.log(`Something went wrong in data fetching process.. ${err}`)
+        res.status(500).json({
+            'message' : 'Something went wrong. check again.'
+        })
+    }
+    
+})
+
+
+
 router.get('/purchase_stats', async (req, res) => {
 
     try {
